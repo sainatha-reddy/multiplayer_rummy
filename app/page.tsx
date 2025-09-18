@@ -10,6 +10,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Wifi, Play, UserPlus, AlertCircle, User } from "lucide-react"
 import { useSocket } from "@/hooks/use-socket"
 import { PlayerSelector } from "@/components/player-selector"
+import { ProductionNotice } from "@/components/production-notice"
 import { PlayerAuthManager } from "@/lib/player-auth"
 import type { GameRoom } from "@/types/game"
 import type { PlayerProfile } from "@/types/player"
@@ -154,6 +155,9 @@ export default function RummyHomePage() {
             Intranet Only
           </Badge>
         </div>
+
+        {/* Production Notice */}
+        {process.env.NODE_ENV === "production" && <ProductionNotice />}
 
         {/* Current Player */}
         {currentPlayer && (

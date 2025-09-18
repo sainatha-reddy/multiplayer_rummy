@@ -14,22 +14,27 @@ export function useSocket() {
 
     setSocket(socketInstance)
 
-    const handleConnect = () => {
-      console.log("[v0] Socket connected")
-      setIsConnected(true)
-    }
+    if (socketInstance) {
+      const handleConnect = () => {
+        console.log("[v0] Socket connected")
+        setIsConnected(true)
+      }
 
-    const handleDisconnect = () => {
-      console.log("[v0] Socket disconnected")
+      const handleDisconnect = () => {
+        console.log("[v0] Socket disconnected")
+        setIsConnected(false)
+      }
+
+      socketInstance.on("connect", handleConnect)
+      socketInstance.on("disconnect", handleDisconnect)
+
+      return () => {
+        socketInstance.off("connect", handleConnect)
+        socketInstance.off("disconnect", handleDisconnect)
+      }
+    } else {
+      // No socket available (production without server)
       setIsConnected(false)
-    }
-
-    socketInstance.on("connect", handleConnect)
-    socketInstance.on("disconnect", handleDisconnect)
-
-    return () => {
-      socketInstance.off("connect", handleConnect)
-      socketInstance.off("disconnect", handleDisconnect)
     }
   }, [])
 

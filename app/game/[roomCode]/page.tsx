@@ -22,6 +22,29 @@ export default function GamePage() {
   const { gameRoom, setGameRoom, executeAction, isGameOver, getWinner } = useGameLogic()
   const { socket, isConnected, joinRoom, leaveRoom } = useSocket()
 
+  // Check if we're in production without socket server
+  if (process.env.NODE_ENV === "production" && !socket) {
+    return (
+      <div className="min-h-screen game-table flex items-center justify-center p-4">
+        <div className="text-center space-y-6 max-w-md">
+          <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto">
+            <WifiOff className="w-8 h-8 text-amber-600" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Demo Mode</h2>
+            <p className="text-gray-600 mb-4">
+              Multiplayer features are not available in this demo. The full game requires a separate Socket.IO server.
+            </p>
+            <Button onClick={() => router.push("/")} className="w-full">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Home
+            </Button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   useEffect(() => {
     if (socket) {
       setConnectionStatus(isConnected ? "connected" : "disconnected")

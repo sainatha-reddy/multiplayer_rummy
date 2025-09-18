@@ -13,30 +13,34 @@ class SocketManager {
     return SocketManager.instance
   }
 
-  connect(): Socket {
+  connect(): Socket | null {
     if (!this.socket) {
-      // Connect to Socket.IO server
-      const socketUrl = process.env.NODE_ENV === "development" 
-        ? "http://localhost:3001" 
-        : process.env.NEXT_PUBLIC_SOCKET_URL || `https://${window.location.hostname}`;
-      
-      this.socket = io(socketUrl, {
-        transports: ["websocket", "polling"],
-        timeout: 5000,
-        forceNew: true,
-      })
+      // Only connect in development or if explicitly configured
+      if (process.env.NODE_ENV === "development") {
+        const socketUrl = "http://localhost:3001"
+        
+        this.socket = io(socketUrl, {
+          transports: ["websocket", "polling"],
+          timeout: 5000,
+          forceNew: true,
+        })
 
-      this.socket.on("connect", () => {
-        console.log("[v0] Connected to game server")
-      })
+        this.socket.on("connect", () => {
+          console.log("[v0] Connected to game server")
+        })
 
-      this.socket.on("disconnect", () => {
-        console.log("[v0] Disconnected from game server")
-      })
+        this.socket.on("disconnect", () => {
+          console.log("[v0] Disconnected from game server")
+        })
 
-      this.socket.on("connect_error", (error) => {
-        console.log("[v0] Connection error:", error)
-      })
+        this.socket.on("connect_error", (error) => {
+          console.log("[v0] Connection error:", error)
+        })
+      } else {
+        // In production, don't attempt connection unless explicitly configured
+        console.log("[v0] Socket.IO server not available in production")
+        return null
+      }
     }
     return this.socket
   }
