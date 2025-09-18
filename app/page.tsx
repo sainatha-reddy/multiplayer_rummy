@@ -156,8 +156,8 @@ export default function RummyHomePage() {
           </Badge>
         </div>
 
-        {/* Production Notice */}
-        {process.env.NODE_ENV === "production" && <ProductionNotice />}
+        {/* Production Notice - only show if no socket URL is configured */}
+        {process.env.NODE_ENV === "production" && !process.env.NEXT_PUBLIC_SOCKET_URL && <ProductionNotice />}
 
         {/* Current Player */}
         {currentPlayer && (

@@ -22,8 +22,8 @@ export default function GamePage() {
   const { gameRoom, setGameRoom, executeAction, isGameOver, getWinner } = useGameLogic()
   const { socket, isConnected, joinRoom, leaveRoom } = useSocket()
 
-  // Check if we're in production without socket server
-  if (process.env.NODE_ENV === "production" && !socket) {
+  // Check if we're in production without socket server or socket URL
+  if (process.env.NODE_ENV === "production" && (!socket || !process.env.NEXT_PUBLIC_SOCKET_URL)) {
     return (
       <div className="min-h-screen game-table flex items-center justify-center p-4">
         <div className="text-center space-y-6 max-w-md">
