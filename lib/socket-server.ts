@@ -74,7 +74,7 @@ export function initializeSocketServer(httpServer: NetServer) {
           }
 
           // Check if player name already exists
-          if (gameRoom.players.some((p) => p.name === playerData.name)) {
+          if (gameRoom.players.some((p: any) => p.name === playerData.name)) {
             socket.emit("join-error", "Player name already taken")
             return
           }
@@ -84,7 +84,7 @@ export function initializeSocketServer(httpServer: NetServer) {
           socket.join(roomCode)
 
           // Notify all players in the room
-          io.to(roomCode).emit("player-joined", gameRoom)
+          io?.to(roomCode).emit("player-joined", gameRoom)
           socket.emit("room-joined", gameRoom)
 
           console.log("[v0] Player joined room:", roomCode, "Player:", playerData.name)
@@ -104,7 +104,7 @@ export function initializeSocketServer(httpServer: NetServer) {
           if (!gameRoom) return
 
           // Check if player is host
-          const player = gameRoom.players.find((p) => p.id === playerInfo.playerId)
+          const player = gameRoom.players.find((p: any) => p.id === playerInfo.playerId)
           if (!player || !player.isHost) {
             socket.emit("error", "Only host can start the game")
             return
@@ -121,7 +121,7 @@ export function initializeSocketServer(httpServer: NetServer) {
 
           gameRooms.set(playerInfo.roomCode, updatedGameRoom)
 
-          io.to(playerInfo.roomCode).emit("game-started", updatedGameRoom)
+          io?.to(playerInfo.roomCode).emit("game-started", updatedGameRoom)
           console.log("[v0] Game started in room:", playerInfo.roomCode)
         } catch (error) {
           console.error("[v0] Error starting game:", error)
@@ -145,12 +145,12 @@ export function initializeSocketServer(httpServer: NetServer) {
           gameRooms.set(roomCode, updatedGameRoom)
 
           // Broadcast updated game state to all players
-          io.to(roomCode).emit("game-state-updated", updatedGameRoom)
+          io?.to(roomCode).emit("game-state-updated", updatedGameRoom)
 
           console.log("[v0] Game action processed:", action, "in room:", roomCode)
         } catch (error) {
           console.error("[v0] Error processing game action:", error)
-          socket.emit("error", error.message || "Invalid game action")
+          socket.emit("error", (error as Error).message || "Invalid game action")
         }
       })
 
@@ -174,7 +174,7 @@ export function initializeSocketServer(httpServer: NetServer) {
         if (!gameRoom) return
 
         // Remove player from room
-        gameRoom.players = gameRoom.players.filter((p) => p.socketId !== socketId)
+        gameRoom.players = gameRoom.players.filter((p: any) => p.socketId !== socketId)
 
         if (gameRoom.players.length === 0) {
           // Delete empty room
@@ -182,20 +182,20 @@ export function initializeSocketServer(httpServer: NetServer) {
           console.log("[v0] Room deleted:", playerInfo.roomCode)
         } else {
           // Assign new host if needed
-          if (!gameRoom.players.some((p) => p.isHost)) {
+          if (!gameRoom.players.some((p: any) => p.isHost)) {
             gameRoom.players[0].isHost = true
           }
 
           // Update current player index if needed
           if (gameRoom.gameState === "playing") {
-            const disconnectedPlayerIndex = gameRoom.players.findIndex((p) => p.id === playerInfo.playerId)
+            const disconnectedPlayerIndex = gameRoom.players.findIndex((p: any) => p.id === playerInfo.playerId)
             if (disconnectedPlayerIndex !== -1 && gameRoom.currentPlayerIndex >= disconnectedPlayerIndex) {
               gameRoom.currentPlayerIndex = Math.max(0, gameRoom.currentPlayerIndex - 1)
             }
           }
 
           // Notify remaining players
-          io.to(playerInfo.roomCode).emit("player-left", gameRoom)
+          io?.to(playerInfo.roomCode).emit("player-left", gameRoom)
         }
 
         playerSockets.delete(socketId)

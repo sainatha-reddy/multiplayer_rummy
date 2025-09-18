@@ -51,7 +51,7 @@ export function useGameLogic() {
       if (!gameRoom) return false
 
       const player = gameRoom.players.find((p) => p.id === playerId)
-      return player?.isCurrentTurn && player.hand.length === 13 && gameRoom.deck.length > 0
+      return !!(player?.isCurrentTurn && player.hand.length === 13 && gameRoom.deck.length > 0)
     },
     [gameRoom],
   )
@@ -61,7 +61,7 @@ export function useGameLogic() {
       if (!gameRoom) return false
 
       const player = gameRoom.players.find((p) => p.id === playerId)
-      return player?.isCurrentTurn && player.hand.length === 13 && gameRoom.discardPile.length > 0
+      return !!(player?.isCurrentTurn && player.hand.length === 13 && gameRoom.discardPile.length > 0)
     },
     [gameRoom],
   )
@@ -71,7 +71,7 @@ export function useGameLogic() {
       if (!gameRoom) return false
 
       const player = gameRoom.players.find((p) => p.id === playerId)
-      return player?.isCurrentTurn && player.hand.length === 14
+      return !!(player?.isCurrentTurn && player.hand.length === 14)
     },
     [gameRoom],
   )
@@ -81,7 +81,7 @@ export function useGameLogic() {
       if (!gameRoom) return false
 
       const player = gameRoom.players.find((p) => p.id === playerId)
-      return player?.isCurrentTurn && player.hand.length === 13
+      return !!(player?.isCurrentTurn && player.hand.length === 13)
     },
     [gameRoom],
   )

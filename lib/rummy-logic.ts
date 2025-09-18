@@ -113,7 +113,7 @@ export class RummyLogic {
     }
 
     // Calculate points for unmatched cards only
-    const matchedCards = new Set<string>()
+    const matchedCards = new globalThis.Set<string>()
 
     // Add cards from valid sequences and sets
     declaration.sequences.forEach((seq) => {
@@ -207,7 +207,7 @@ export class RummyLogic {
 
     const sequences: Sequence[] = []
     const sets: Set[] = []
-    const usedCards = new Set<string>()
+    const usedCards = new globalThis.Set<string>()
 
     // Try to find pure sequences first
     const pureSequence = this.findPureSequence(hand, usedCards)
@@ -224,7 +224,7 @@ export class RummyLogic {
   }
 
   // Find a pure sequence in the hand
-  private static findPureSequence(hand: Card[], usedCards: Set<string>): Sequence | null {
+  private static findPureSequence(hand: Card[], usedCards: globalThis.Set<string>): Sequence | null {
     const availableCards = hand.filter((card) => !usedCards.has(card.id) && !card.isJoker)
 
     // Group cards by suit
@@ -270,7 +270,7 @@ export class RummyLogic {
 
   // Check if the combination covers all cards
   private static isCompleteDeclaration(combination: { sequences: Sequence[]; sets: Set[] }, hand: Card[]): boolean {
-    const coveredCards = new Set<string>()
+    const coveredCards = new globalThis.Set<string>()
 
     combination.sequences.forEach((seq) => {
       seq.cards.forEach((card) => coveredCards.add(card.id))
