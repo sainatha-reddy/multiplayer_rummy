@@ -1,0 +1,24 @@
+{
+  "name": "rummy-socket-server",
+  "version": "1.0.0",
+  "description": "Socket.IO server for 13 Card Indian Rummy multiplayer game",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "socket.io": "^4.8.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "socket.io",
+    "rummy",
+    "multiplayer",
+    "game"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
