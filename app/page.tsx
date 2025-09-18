@@ -76,7 +76,7 @@ export default function RummyHomePage() {
         socket.off("create-error")
       }
     }
-  }, [socket, router, currentPlayer])
+  }, [socket, currentPlayer])
 
   const handlePlayerSelect = (profile: PlayerProfile) => {
     setCurrentPlayer(profile)

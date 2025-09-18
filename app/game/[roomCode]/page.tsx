@@ -84,7 +84,7 @@ export default function GamePage() {
         socket.off("join-error")
       }
     }
-  }, [socket, isConnected, setGameRoom, router])
+  }, [socket, isConnected])
 
   const handleLeaveGame = () => {
     if (socket && currentPlayer) {
