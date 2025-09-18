@@ -11,7 +11,8 @@ import { Wifi, Play, UserPlus, AlertCircle, User } from "lucide-react"
 import { useSocket } from "@/hooks/use-socket"
 import { PlayerSelector } from "@/components/player-selector"
 import { PlayerAuthManager } from "@/lib/player-auth"
-import type { GameRoom, PlayerProfile } from "@/types/game"
+import type { GameRoom } from "@/types/game"
+import type { PlayerProfile } from "@/types/player"
 
 export default function RummyHomePage() {
   const router = useRouter()

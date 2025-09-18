@@ -15,15 +15,16 @@ class SocketManager {
 
   connect(): Socket {
     if (!this.socket) {
-      // Connect to Socket.IO server on port 3001
-      this.socket = io(
-        process.env.NODE_ENV === "development" ? "http://localhost:3001" : `http://${window.location.hostname}:3001`,
-        {
-          transports: ["websocket", "polling"],
-          timeout: 5000,
-          forceNew: true,
-        },
-      )
+      // Connect to Socket.IO server
+      const socketUrl = process.env.NODE_ENV === "development" 
+        ? "http://localhost:3001" 
+        : process.env.NEXT_PUBLIC_SOCKET_URL || `https://${window.location.hostname}`;
+      
+      this.socket = io(socketUrl, {
+        transports: ["websocket", "polling"],
+        timeout: 5000,
+        forceNew: true,
+      })
 
       this.socket.on("connect", () => {
         console.log("[v0] Connected to game server")
