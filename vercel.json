@@ -6,11 +6,6 @@
       "use": "@vercel/next"
     }
   ],
-  "functions": {
-    "app/api/**/*.ts": {
-      "maxDuration": 30
-    }
-  },
   "env": {
     "NEXT_PUBLIC_SOCKET_URL": "@socket-url"
   }
